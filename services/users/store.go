@@ -3,13 +3,14 @@ package users
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/MinaSamirSaad/ecommerce/services/shared"
 )
 
 type UserStore interface {
 	GetUserByEmail(email string) (*shared.User, error)
-	CreateUser(u *shared.User) error
+	CreateUser(u *shared.User) (*shared.User, error)
 	GetUserByID(id int) (*shared.User, error)
 }
 
@@ -48,8 +49,22 @@ func ScanRowIntoUser(rows *sql.Rows) (*shared.User, error) {
 	return u, nil
 }
 
-func (s *Store) CreateUser(u *shared.User) error {
-	return nil
+func (s *Store) CreateUser(u *shared.User) (*shared.User, error) {
+	result, err := s.db.Exec("INSERT INTO users (firstName, lastName, email, password) VALUES (?, ?, ?, ?)", u.FirstName, u.LastName, u.Email, u.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	// Get the last inserted ID
+	lastID, err := result.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+	u.ID = int(lastID)
+
+	u.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
+
+	return u, nil
 }
 func (s *Store) GetUserByID(id int) (*shared.User, error) {
 	return nil, nil

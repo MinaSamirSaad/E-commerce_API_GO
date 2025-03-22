@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/go-playground/validator/v10"
 )
 
 func ParseJsonBody(r *http.Request, v interface{}) error {
@@ -23,3 +25,5 @@ func WriteJson(w http.ResponseWriter, status int, v interface{}) error {
 func RespondError(w http.ResponseWriter, status int, err error) {
 	WriteJson(w, status, map[string]string{"error": err.Error()})
 }
+
+var Validate = validator.New()
