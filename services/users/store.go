@@ -42,7 +42,7 @@ func (s *Store) GetUserByEmail(email string) (*shared.User, error) {
 
 func ScanRowIntoUser(rows *sql.Rows) (*shared.User, error) {
 	u := &shared.User{}
-	err := rows.Scan(&u.ID, &u.Email, &u.Password, &u.FirstName, &u.LastName, &u.CreatedAt)
+	err := rows.Scan(&u.ID, &u.FirstName, &u.LastName, &u.Email, &u.Password, &u.CreatedAt)
 	if err != nil {
 		return nil, err
 	}

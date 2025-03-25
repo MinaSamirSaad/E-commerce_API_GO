@@ -20,3 +20,8 @@ type LoginUserPayload struct {
 	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required"`
 }
+
+type LoginUserResponse struct {
+	User
+	Token string `json:"token"`
+}

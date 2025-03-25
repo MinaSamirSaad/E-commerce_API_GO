@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/MinaSamirSaad/ecommerce/config"
 	"github.com/MinaSamirSaad/ecommerce/services/auth"
 	"github.com/MinaSamirSaad/ecommerce/services/shared"
 	"github.com/go-playground/validator/v10"
@@ -20,7 +21,37 @@ func NewHandler(db *sql.DB) *Handler {
 }
 
 func (h *Handler) handleLogin(res http.ResponseWriter, req *http.Request) {
+	// get payload
+	var payload shared.LoginUserPayload
+	if err := shared.ParseJsonBody(req, &payload); err != nil {
+		shared.RespondError(res, http.StatusBadRequest, err)
+		return
+	}
+	// check if user exists
+	u, err := h.store.GetUserByEmail(payload.Email)
+	if err != nil {
+		shared.RespondError(res, http.StatusBadRequest, fmt.Errorf("not found invalid email or password"))
+		return
+	}
 
+	// compare password
+	if err := auth.ComparePassword(u.Password, payload.Password); err != nil {
+		shared.RespondError(res, http.StatusBadRequest, fmt.Errorf("not found invalid email or password"))
+		return
+	}
+	// generate token
+	secret := []byte(config.Envs.JWTSecret)
+	token, err := auth.CreateJWT(secret, u.ID)
+	if err != nil {
+		shared.RespondError(res, http.StatusInternalServerError, err)
+		return
+	}
+	// return response
+	response := shared.LoginUserResponse{
+		User:  *u,
+		Token: token,
+	}
+	shared.WriteJson(res, http.StatusOK, response)
 }
 
 func (h *Handler) handleRegister(res http.ResponseWriter, req *http.Request) {
