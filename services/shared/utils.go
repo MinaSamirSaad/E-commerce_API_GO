@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/gorilla/mux"
 )
 
 func ParseJsonBody(r *http.Request, v interface{}) error {
@@ -27,3 +28,9 @@ func RespondError(w http.ResponseWriter, status int, err error) {
 }
 
 var Validate = validator.New()
+
+func GetURLParam(r *http.Request, key string) (string, bool) {
+	vars := mux.Vars(r)
+	value, ok := vars[key]
+	return value, ok
+}

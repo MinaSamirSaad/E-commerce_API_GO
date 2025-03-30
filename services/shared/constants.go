@@ -8,3 +8,13 @@ const (
 )
 
 const API_PREFIX = "/api"
+
+// End points
+const (
+	LOGIN    = "/login"
+	REGISTER = "/register"
+	PRODUCTS = "/products"
+	PRODUCT  = "/products/{id}"
+)
+
+const ErrMissingURLParam = "missing URL parameter"

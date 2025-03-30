@@ -6,7 +6,7 @@ import (
 )
 
 func (h *Handler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc(LOGIN, h.handleLogin).Methods(shared.POST_METHOD)
-	router.HandleFunc(REGISTER, h.handleRegister).Methods(shared.POST_METHOD)
+	router.HandleFunc(shared.LOGIN, h.handleLogin).Methods(shared.POST_METHOD)
+	router.HandleFunc(shared.REGISTER, h.handleRegister).Methods(shared.POST_METHOD)
 
 }

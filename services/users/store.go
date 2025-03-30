@@ -62,7 +62,7 @@ func (s *Store) CreateUser(u *shared.User) (*shared.User, error) {
 	}
 	u.ID = int(lastID)
 
-	u.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
+	u.CreatedAt = time.Now()
 
 	return u, nil
 }
