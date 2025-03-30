@@ -8,12 +8,6 @@ import (
 	"github.com/MinaSamirSaad/ecommerce/services/shared"
 )
 
-type UserStore interface {
-	GetUserByEmail(email string) (*shared.User, error)
-	CreateUser(u *shared.User) (*shared.User, error)
-	GetUserByID(id int) (*shared.User, error)
-}
-
 type Store struct {
 	db *sql.DB
 }

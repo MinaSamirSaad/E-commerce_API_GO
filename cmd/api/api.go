@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/MinaSamirSaad/ecommerce/services/cart"
 	"github.com/MinaSamirSaad/ecommerce/services/products"
 	"github.com/MinaSamirSaad/ecommerce/services/shared"
 	"github.com/MinaSamirSaad/ecommerce/services/users"
@@ -30,6 +31,9 @@ func (s *APIServer) Run() error {
 	// Product routes
 	productHandler := products.NewHandler(s.db)
 	productHandler.RegisterRoutes(subRouter)
+	// Cart routes
+	cartHandler := cart.NewHandler(s.db)
+	cartHandler.RegisterRoutes(subRouter)
 	// Start the server
 	log.Println("listing on", s.addr)
 	return http.ListenAndServe(s.addr, router)

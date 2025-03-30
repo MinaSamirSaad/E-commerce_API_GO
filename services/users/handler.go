@@ -12,7 +12,7 @@ import (
 )
 
 type Handler struct {
-	store UserStore
+	store shared.UserStore
 }
 
 func NewHandler(db *sql.DB) *Handler {

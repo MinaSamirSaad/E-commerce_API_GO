@@ -15,6 +15,7 @@ const (
 	REGISTER = "/register"
 	PRODUCTS = "/products"
 	PRODUCT  = "/products/{id}"
+	CHECKOUT = "/cart/checkout"
 )
 
 const ErrMissingURLParam = "missing URL parameter"
